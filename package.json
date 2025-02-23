@@ -1,30 +1,29 @@
 {
-    "name": "plugsy",
-    "version": "0.0.0",
-    "description": "Plugin SISTEM fleksibel",
-    "main": "index.js",
-    "exports": {
-        "require": "./dist/cjs/index.js",
-        "import": "./dist/esm/index.js"
-    },
-    "main": "./dist/cjs/index.js",
-    "module": "./dist/esm/index.js",
-    "files": [
-        "./dist/"
-    ],
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [
-        "plugsy",
-        "plugin-system"
-    ],
-    "author": "Salman <salmantok.dev@gmail.com>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/salmantok/plugsy.git"
-    },
-    "homepage": "https://github.com/salmantok/plugsy#readme"
+  "name": "plugsy",
+  "version": "0.0.1",
+  "description": "Plugin SISTEM fleksibel",
+  "main": "./dist/cjs/index.js",
+  "exports": {
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js"
+  },
+  "module": "./dist/esm/index.js",
+  "files": [
+    "./dist/"
+  ],
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "plugsy",
+    "plugin-system"
+  ],
+  "author": "Salman <salmantok.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salmantok/plugsy.git"
+  },
+  "homepage": "https://github.com/salmantok/plugsy#readme"
 }
