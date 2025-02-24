@@ -69,3 +69,55 @@ plugsy.execute('Context data');
 // Step 1 Context data
 // Step 2 Context data
 ```
+
+### Plugin untuk Dependency Injection
+
+Menyediakan layanan yang dapat diakses antar plugin.
+
+```js
+plugsy.use((plug) => {
+  plug.services = {};
+  plug.registerService = (name, service) => {
+    plug.services[name] = service;
+  };
+  plug.getService = (name) => plug.services[name];
+});
+plugsy.registerService('api', { fetch: () => 'Data fetched from API' });
+console.log(plugsy.getService('api').fetch()); // Output: Data fetched from API
+```
+
+### Plugin untuk Menangani Event
+
+Memungkinkan plugin menangani dan merespons event.
+
+```js
+plugsy.use((plug) => {
+  plug.events = {};
+  plug.on = (event, handler) => {
+    if (!plug.events[event]) plug.events[event] = [];
+    plug.events[event].push(handler);
+  };
+  plug.emit = (event, data) => {
+    (plug.events[event] || []).forEach((handler) => handler(data));
+  };
+});
+plugsy.on('userLogin', (user) => console.log(`${user} logged in`));
+plugsy.emit('userLogin', 'Alice');
+// Output: Alice logged in
+```
+
+### Plugin untuk Membuat Konfigurasi Dinamis
+
+Menyimpan dan mengelola konfigurasi plugin secara fleksibel.
+
+```js
+plugsy.use((plug) => {
+  plug.config = {};
+  plug.setConfig = (key, value) => {
+    plug.config[key] = value;
+  };
+  plug.getConfig = (key) => plug.config[key];
+});
+plugsy.setConfig('apiEndpoint', 'https://api.example.com');
+console.log(plugsy.getConfig('apiEndpoint')); // Output: https://api.example.com
+```
