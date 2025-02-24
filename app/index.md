@@ -121,3 +121,77 @@ plugsy.use((plug) => {
 plugsy.setConfig('apiEndpoint', 'https://api.example.com');
 console.log(plugsy.getConfig('apiEndpoint')); // Output: https://api.example.com
 ```
+
+### Plugin untuk Menyimpan State Global
+
+Menyimpan dan mengakses data global dalam plugin.
+
+```js
+plugsy.use((plug) => {
+  plug.state = {};
+  plug.setState = (key, value) => (plug.state[key] = value);
+  plug.getState = (key) => plug.state[key];
+});
+plugsy.setState('theme', 'dark');
+console.log(plugsy.getState('theme')); // Output: dark
+```
+
+### Plugin untuk Logging
+
+Menyediakan sistem logging sederhana untuk debugging.
+
+```js
+plugsy.use((plug) => {
+  plug.log = (message) => console.log(`[LOG]: ${message}`);
+});
+plugsy.log('Hello, world!'); // Output: [LOG]: Hello, world!
+```
+
+### Plugin untuk Caching Data
+
+Menyimpan dan mengambil data dari cache untuk efisiensi.
+
+```js
+plugsy.use((plug) => {
+  plug.cache = new Map();
+  plug.setCache = (key, value) => plug.cache.set(key, value);
+  plug.getCache = (key) => plug.cache.get(key);
+});
+plugsy.setCache('user', { name: 'Alice' });
+console.log(plugsy.getCache('user')); // Output: { name: 'Alice' }
+```
+
+### Plugin untuk Manajemen Tugas Asinkron
+
+Menjalankan tugas asinkron dalam antrean secara berurutan.
+
+```js
+plugsy.use((plug) => {
+  plug.queue = [];
+  plug.addTask = (task) => plug.queue.push(task);
+  plug.runTasks = async () => {
+    for (const task of plug.queue) {
+      await task();
+    }
+  };
+});
+plugsy.addTask(
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('Task 1 done');
+        resolve();
+      }, 1000);
+    })
+);
+plugsy.addTask(
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('Task 2 done');
+        resolve();
+      }, 500);
+    })
+);
+plugsy.runTasks();
+```

@@ -78,4 +78,50 @@ plugsy.<span class="hljs-title function_">emit</span>(<span class="hljs-string">
 });
 plugsy.<span class="hljs-title function_">setConfig</span>(<span class="hljs-string">&#x27;apiEndpoint&#x27;</span>, <span class="hljs-string">&#x27;https://api.example.com&#x27;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getConfig</span>(<span class="hljs-string">&#x27;apiEndpoint&#x27;</span>)); <span class="hljs-comment">// Output: https://api.example.com</span>
+</code></pre><h3>Plugin untuk Menyimpan State Global</h3><p>Menyimpan dan mengakses data global dalam plugin.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+    plug.<span class="hljs-property">state</span> = {};
+    plug.<span class="hljs-property">setState</span> = <span class="hljs-function">(<span class="hljs-params">key, value</span>) =&gt;</span> (plug.<span class="hljs-property">state</span>[key] = value);
+    plug.<span class="hljs-property">getState</span> = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> plug.<span class="hljs-property">state</span>[key];
+});
+plugsy.<span class="hljs-title function_">setState</span>(<span class="hljs-string">&#x27;theme&#x27;</span>, <span class="hljs-string">&#x27;dark&#x27;</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getState</span>(<span class="hljs-string">&#x27;theme&#x27;</span>)); <span class="hljs-comment">// Output: dark</span>
+</code></pre><h3>Plugin untuk Logging</h3><p>Menyediakan sistem logging sederhana untuk debugging.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+    plug.<span class="hljs-property">log</span> = <span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[LOG]: <span class="hljs-subst">${message}</span>`</span>);
+});
+plugsy.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Hello, world!&#x27;</span>); <span class="hljs-comment">// Output: [LOG]: Hello, world!</span>
+</code></pre><h3>Plugin untuk Caching Data</h3><p>Menyimpan dan mengambil data dari cache untuk efisiensi.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+    plug.<span class="hljs-property">cache</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();
+    plug.<span class="hljs-property">setCache</span> = <span class="hljs-function">(<span class="hljs-params">key, value</span>) =&gt;</span> plug.<span class="hljs-property">cache</span>.<span class="hljs-title function_">set</span>(key, value);
+    plug.<span class="hljs-property">getCache</span> = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> plug.<span class="hljs-property">cache</span>.<span class="hljs-title function_">get</span>(key);
+});
+plugsy.<span class="hljs-title function_">setCache</span>(<span class="hljs-string">&#x27;user&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alice&#x27;</span> });
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getCache</span>(<span class="hljs-string">&#x27;user&#x27;</span>)); <span class="hljs-comment">// Output: { name: &#x27;Alice&#x27; }</span>
+</code></pre><h3>Plugin untuk Manajemen Tugas Asinkron</h3><p>Menjalankan tugas asinkron dalam antrean secara berurutan.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+    plug.<span class="hljs-property">queue</span> = [];
+    plug.<span class="hljs-property">addTask</span> = <span class="hljs-function">(<span class="hljs-params">task</span>) =&gt;</span> plug.<span class="hljs-property">queue</span>.<span class="hljs-title function_">push</span>(task);
+    plug.<span class="hljs-property">runTasks</span> = <span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> task <span class="hljs-keyword">of</span> plug.<span class="hljs-property">queue</span>) {
+            <span class="hljs-keyword">await</span> <span class="hljs-title function_">task</span>();
+        }
+    };
+});
+plugsy.<span class="hljs-title function_">addTask</span>(
+    <span class="hljs-function">() =&gt;</span>
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Task 1 done&#x27;</span>);
+                <span class="hljs-title function_">resolve</span>();
+            }, <span class="hljs-number">1000</span>);
+        })
+);
+plugsy.<span class="hljs-title function_">addTask</span>(
+    <span class="hljs-function">() =&gt;</span>
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
+            <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Task 2 done&#x27;</span>);
+                <span class="hljs-title function_">resolve</span>();
+            }, <span class="hljs-number">500</span>);
+        })
+);
+plugsy.<span class="hljs-title function_">runTasks</span>();
 </code></pre></main><footer class="mt-2 py-2 text-center small text-secondary border-top footer a"><p>Copyright &copy; 2025 <a href="https://github.com/salmantok">Salman</a>. All rights reserved.</p></footer><script>document.addEventListener("DOMContentLoaded",(function(){document.querySelectorAll("pre").forEach((e=>{const t=e.querySelector("code"),n=t.className.split("language-")[1]||"plain",o=document.createElement("div");o.className="d-flex justify-content-between align-items-center p-2 rounded mb-0 bg-body-tertiary",o.style.fontSize="12px",o.style.padding="4px 8px",e.parentElement.insertBefore(o,e);const a=document.createElement("span");a.textContent=n.toUpperCase(),a.className="text-nowrap",o.appendChild(a);const i=document.createElement("button");i.innerText="Copy",i.className="btn btn-sm",i.style.fontSize="10px",i.style.padding="2px 6px",i.onclick=()=>{navigator.clipboard.writeText(t.innerText).then((()=>{i.innerText="Copied!",setTimeout((()=>i.innerText="Copy"),2e3)}))},o.appendChild(i);const l=document.createElement("div");l.className="position-relative mb-4",e.parentElement.insertBefore(l,o.nextSibling),l.appendChild(e)}))}))</script><script>document.addEventListener("DOMContentLoaded",(()=>{const t=document.querySelector(".dark-mode-toggle"),e=document.body,d=localStorage.getItem("theme")||"light";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",t.addEventListener("click",(()=>{const d="dark"===e.getAttribute("data-bs-theme")?"light":"dark";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",localStorage.setItem("theme",d)}))}))</script><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script></body></html>
