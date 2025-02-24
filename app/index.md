@@ -19,3 +19,21 @@ plugsy.use((plug) => {
 });
 plugsy.run(); // Output: Plugin executed!
 ```
+
+### Plugin untuk Urutan Eksekusi
+
+Menjalankan plugin secara berurutan sesuai urutan yang ditentukan.
+
+```js
+plugsy.use((plug) => {
+    plug.plugins = [
+        { name: 'Logger', run: () => console.log('Logger plugin') },
+        { name: 'Analytics', run: () => console.log('Analytics plugin') },
+    ];
+    plug.runAll = () => plug.plugins.forEach((plugin) => plugin.run());
+});
+plugsy.runAll();
+// Output:
+// Logger plugin
+// Analytics plugin
+```
