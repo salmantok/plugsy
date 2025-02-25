@@ -195,3 +195,18 @@ plugsy.addTask(
 );
 plugsy.runTasks();
 ```
+
+### Plugin untuk Validasi Data
+
+Menambahkan validator kustom untuk memeriksa data.
+
+```js
+plugsy.use((plug) => {
+  plug.validators = {};
+  plug.addValidator = (name, fn) => (plug.validators[name] = fn);
+  plug.validate = (name, value) => plug.validators[name]?.(value);
+});
+plugsy.addValidator('isNumber', (val) => typeof val === 'number');
+console.log(plugsy.validate('isNumber', 42)); // Output: true
+console.log(plugsy.validate('isNumber', 'test')); // Output: false
+```
