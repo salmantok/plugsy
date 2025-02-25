@@ -210,3 +210,40 @@ plugsy.addValidator('isNumber', (val) => typeof val === 'number');
 console.log(plugsy.validate('isNumber', 42)); // Output: true
 console.log(plugsy.validate('isNumber', 'test')); // Output: false
 ```
+
+### Plugin untuk Memonitor Waktu Eksekusi
+
+Mengukur waktu eksekusi fungsi untuk analisis performa.
+
+```js
+plugsy.use((plug) => {
+  plug.trackExecution = (fn) => {
+    const start = performance.now();
+    fn();
+    const end = performance.now();
+    console.log(`Execution time: ${end - start}ms`);
+  };
+});
+plugsy.trackExecution(() => {
+  for (let i = 0; i < 1000000; i++) {} // Simulasi kerja
+});
+```
+
+### Plugin untuk Menyediakan Hook Lifecycle
+
+Menjalankan kode sebelum dan sesudah proses utama dengan sistem hook.
+
+```js
+plugsy.use((plug) => {
+  plug.hooks = { beforeRun: [], afterRun: [] };
+  plug.addHook = (type, fn) => plug.hooks[type]?.push(fn);
+  plug.runWithHooks = () => {
+    plug.hooks.beforeRun.forEach((fn) => fn());
+    console.log('Running main logic');
+    plug.hooks.afterRun.forEach((fn) => fn());
+  };
+});
+plugsy.addHook('beforeRun', () => console.log('Before run logic'));
+plugsy.addHook('afterRun', () => console.log('After run logic'));
+plugsy.runWithHooks();
+```
