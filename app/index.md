@@ -457,3 +457,40 @@ plugsy.history.execute(() => console.log('Action 1 executed'));
 plugsy.history.undo(); // Output: "Undo action"
 plugsy.history.redo(); // Output: "Action 1 executed"
 ```
+
+### Plugin untuk Notifikasi Sistem
+
+Menampilkan notifikasi di UI atau konsol.
+
+```js
+plugsy.use((plug) => {
+  plug.notify = (message, type = 'info') => {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+  };
+});
+
+// Gunakan
+plugsy.notify('Berhasil menyimpan data!', 'success');
+```
+
+### Plugin untuk Parsing Markdown
+
+Parser Markdown sederhana.
+
+```js
+plugsy.use((plug) => {
+  plug.markdown = (text) => {
+    return text
+      .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+      .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+      .replace(/\*\*(.*?)\*\*/gm, '<b>$1</b>')
+      .replace(/\*(.*?)\*/gm, '<i>$1</i>')
+      .replace(/\[(.*?)\]\((.*?)\)/gm, '<a href="$2">$1</a>');
+  };
+});
+
+// Gunakan
+console.log(
+  plugsy.markdown('# Judul\n**Bold** *Italic* [Link](https://example.com)')
+);
+```

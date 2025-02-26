@@ -339,4 +339,27 @@ plugsy.<span class="hljs-property">api</span>.<span class="hljs-title function_"
 plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">execute</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Action 1 executed&#x27;</span>));
 plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">undo</span>(); <span class="hljs-comment">// Output: &quot;Undo action&quot;</span>
 plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">redo</span>(); <span class="hljs-comment">// Output: &quot;Action 1 executed&quot;</span>
+</code></pre><h3>Plugin untuk Notifikasi Sistem</h3><p>Menampilkan notifikasi di UI atau konsol.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+  plug.<span class="hljs-property">notify</span> = <span class="hljs-function">(<span class="hljs-params">message, type = <span class="hljs-string">&#x27;info&#x27;</span></span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[<span class="hljs-subst">${type.toUpperCase()}</span>] <span class="hljs-subst">${message}</span>`</span>);
+  };
+});
+
+<span class="hljs-comment">// Gunakan</span>
+plugsy.<span class="hljs-title function_">notify</span>(<span class="hljs-string">&#x27;Berhasil menyimpan data!&#x27;</span>, <span class="hljs-string">&#x27;success&#x27;</span>);
+</code></pre><h3>Plugin untuk Parsing Markdown</h3><p>Parser Markdown sederhana.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+  plug.<span class="hljs-property">markdown</span> = <span class="hljs-function">(<span class="hljs-params">text</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> text
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^# (.*$)/gm</span>, <span class="hljs-string">&#x27;&lt;h1&gt;$1&lt;/h1&gt;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/^## (.*$)/gm</span>, <span class="hljs-string">&#x27;&lt;h2&gt;$1&lt;/h2&gt;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\*\*(.*?)\*\*/gm</span>, <span class="hljs-string">&#x27;&lt;b&gt;$1&lt;/b&gt;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\*(.*?)\*/gm</span>, <span class="hljs-string">&#x27;&lt;i&gt;$1&lt;/i&gt;&#x27;</span>)
+      .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\[(.*?)\]\((.*?)\)/gm</span>, <span class="hljs-string">&#x27;&lt;a href=&quot;$2&quot;&gt;$1&lt;/a&gt;&#x27;</span>);
+  };
+});
+
+<span class="hljs-comment">// Gunakan</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+  plugsy.<span class="hljs-title function_">markdown</span>(<span class="hljs-string">&#x27;# Judul\n**Bold** *Italic* [Link](https://example.com)&#x27;</span>)
+);
 </code></pre></main><footer class="mt-2 py-2 text-center small text-secondary border-top footer a"><p>Copyright &copy; 2025 <a href="https://github.com/salmantok">Salman</a>. All rights reserved.</p></footer><script>document.addEventListener("DOMContentLoaded",(function(){document.querySelectorAll("pre").forEach((e=>{const t=e.querySelector("code"),n=t.className.split("language-")[1]||"plain",o=document.createElement("div");o.className="d-flex justify-content-between align-items-center p-2 rounded mb-0 bg-body-tertiary",o.style.fontSize="12px",o.style.padding="4px 8px",e.parentElement.insertBefore(o,e);const a=document.createElement("span");a.textContent=n.toUpperCase(),a.className="text-nowrap",o.appendChild(a);const i=document.createElement("button");i.innerText="Copy",i.className="btn btn-sm",i.style.fontSize="10px",i.style.padding="2px 6px",i.onclick=()=>{navigator.clipboard.writeText(t.innerText).then((()=>{i.innerText="Copied!",setTimeout((()=>i.innerText="Copy"),2e3)}))},o.appendChild(i);const l=document.createElement("div");l.className="position-relative mb-4",e.parentElement.insertBefore(l,o.nextSibling),l.appendChild(e)}))}))</script><script>document.addEventListener("DOMContentLoaded",(()=>{const t=document.querySelector(".dark-mode-toggle"),e=document.body,d=localStorage.getItem("theme")||"light";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",t.addEventListener("click",(()=>{const d="dark"===e.getAttribute("data-bs-theme")?"light":"dark";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",localStorage.setItem("theme",d)}))}))</script><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script></body></html>
