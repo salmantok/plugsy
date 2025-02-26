@@ -17,6 +17,8 @@ const plugsy = require('plugsy').default;
 plugsy.use((plug) => {
   plug.run = () => console.log('Plugin executed!');
 });
+
+// Gunakan
 plugsy.run(); // Output: Plugin executed!
 ```
 
@@ -32,6 +34,8 @@ plugsy.use((plug) => {
   ];
   plug.runAll = () => plug.plugins.forEach((plugin) => plugin.run());
 });
+
+// Gunakan
 plugsy.runAll();
 // Output:
 // Logger plugin
@@ -56,6 +60,8 @@ plugsy.use((plug) => {
     next();
   };
 });
+
+// Gunakan
 plugsy.useMiddleware((ctx, next) => {
   console.log('Step 1', ctx);
   next();
@@ -82,6 +88,8 @@ plugsy.use((plug) => {
   };
   plug.getService = (name) => plug.services[name];
 });
+
+// Gunakan
 plugsy.registerService('api', { fetch: () => 'Data fetched from API' });
 console.log(plugsy.getService('api').fetch()); // Output: Data fetched from API
 ```
@@ -101,6 +109,8 @@ plugsy.use((plug) => {
     (plug.events[event] || []).forEach((handler) => handler(data));
   };
 });
+
+// Gunakan
 plugsy.on('userLogin', (user) => console.log(`${user} logged in`));
 plugsy.emit('userLogin', 'Alice');
 // Output: Alice logged in
@@ -118,6 +128,8 @@ plugsy.use((plug) => {
   };
   plug.getConfig = (key) => plug.config[key];
 });
+
+// Gunakan
 plugsy.setConfig('apiEndpoint', 'https://api.example.com');
 console.log(plugsy.getConfig('apiEndpoint')); // Output: https://api.example.com
 ```
@@ -132,6 +144,8 @@ plugsy.use((plug) => {
   plug.setState = (key, value) => (plug.state[key] = value);
   plug.getState = (key) => plug.state[key];
 });
+
+// Gunakan
 plugsy.setState('theme', 'dark');
 console.log(plugsy.getState('theme')); // Output: dark
 ```
@@ -144,6 +158,8 @@ Menyediakan sistem logging sederhana untuk debugging.
 plugsy.use((plug) => {
   plug.log = (message) => console.log(`[LOG]: ${message}`);
 });
+
+// Gunakan
 plugsy.log('Hello, world!'); // Output: [LOG]: Hello, world!
 ```
 
@@ -157,6 +173,8 @@ plugsy.use((plug) => {
   plug.setCache = (key, value) => plug.cache.set(key, value);
   plug.getCache = (key) => plug.cache.get(key);
 });
+
+// Gunakan
 plugsy.setCache('user', { name: 'Alice' });
 console.log(plugsy.getCache('user')); // Output: { name: 'Alice' }
 ```
@@ -175,6 +193,8 @@ plugsy.use((plug) => {
     }
   };
 });
+
+// Gunakan
 plugsy.addTask(
   () =>
     new Promise((resolve) => {
@@ -206,6 +226,8 @@ plugsy.use((plug) => {
   plug.addValidator = (name, fn) => (plug.validators[name] = fn);
   plug.validate = (name, value) => plug.validators[name]?.(value);
 });
+
+// Gunakan
 plugsy.addValidator('isNumber', (val) => typeof val === 'number');
 console.log(plugsy.validate('isNumber', 42)); // Output: true
 console.log(plugsy.validate('isNumber', 'test')); // Output: false
@@ -224,6 +246,8 @@ plugsy.use((plug) => {
     console.log(`Execution time: ${end - start}ms`);
   };
 });
+
+// Gunakan
 plugsy.trackExecution(() => {
   for (let i = 0; i < 1000000; i++) {} // Simulasi kerja
 });
@@ -243,7 +267,193 @@ plugsy.use((plug) => {
     plug.hooks.afterRun.forEach((fn) => fn());
   };
 });
+
+// Gunakan
 plugsy.addHook('beforeRun', () => console.log('Before run logic'));
 plugsy.addHook('afterRun', () => console.log('After run logic'));
 plugsy.runWithHooks();
+```
+
+### Plugin untuk Manajemen Tema UI
+
+Menyediakan fitur untuk mengatur tema (misalnya, mode terang & gelap).
+
+```js
+plugsy.use((plug) => {
+  plug.theme = {
+    current: 'light',
+    setTheme: (theme) => {
+      plug.theme.current = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      console.log(`Theme set to: ${theme}`);
+    },
+    toggleTheme: () => {
+      plug.theme.current = plug.theme.current === 'light' ? 'dark' : 'light';
+      plug.theme.setTheme(plug.theme.current);
+    },
+  };
+});
+
+// Gunakan
+plugsy.theme.setTheme('light'); // Output: "Theme set to: light"
+plugsy.theme.toggleTheme(); // Output: "Theme set to: dark"
+```
+
+Full contoh tema UI
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Theme Toggle</title>
+    <style>
+      /* Default light theme */
+      :root {
+        --background-color: white;
+        --text-color: black;
+      }
+
+      /* Dark theme */
+      [data-theme='dark'] {
+        --background-color: black;
+        --text-color: white;
+      }
+
+      /* Terapkan warna ke body */
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
+
+      /* Style tombol */
+      #theme-toggle {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background: gray;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="theme-toggle">Toggle Dark Mode</button>
+
+    <script type="module">
+      import plugsy from 'https://cdn.jsdelivr.net/npm/plugsy@0.0.2/+esm';
+
+      plugsy.use((plug) => {
+        plug.theme = {
+          current: 'light',
+          setTheme: (theme) => {
+            plug.theme.current = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            console.log(`Theme set to: ${theme}`);
+          },
+          toggleTheme: () => {
+            plug.theme.current =
+              plug.theme.current === 'light' ? 'dark' : 'light';
+            plug.theme.setTheme(plug.theme.current);
+          },
+        };
+
+        // Pastikan tema awal diatur ke 'light'
+        plug.theme.setTheme('light');
+
+        // Tambahkan event listener untuk tombol
+        document
+          .getElementById('theme-toggle')
+          .addEventListener('click', () => {
+            plug.theme.toggleTheme();
+          });
+      });
+    </script>
+  </body>
+</html>
+```
+
+### Plugin untuk Menyediakan API Fetch Wrapper
+
+Membuat wrapper untuk `fetch()` dengan penanganan kesalahan dan opsi global.
+
+```js
+plugsy.use((plug) => {
+  plug.api = {
+    baseUrl: '',
+    setBaseUrl: (url) => {
+      plug.api.baseUrl = url;
+    },
+    get: async (endpoint) => {
+      try {
+        const response = await fetch(plug.api.baseUrl + endpoint);
+        return await response.json();
+      } catch (error) {
+        console.error('API Fetch Error:', error);
+        return null;
+      }
+    },
+    post: async (endpoint, data) => {
+      try {
+        const response = await fetch(plug.api.baseUrl + endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('API Fetch Error:', error);
+        return null;
+      }
+    },
+  };
+});
+
+// Gunakan
+plugsy.api.setBaseUrl('https://api.example.com');
+plugsy.api.get('/users').then(console.log);
+```
+
+### Plugin untuk Menyediakan Fitur Undo/Redo
+
+Menyediakan mekanisme untuk membatalkan dan mengulang perubahan.
+
+```js
+plugsy.use((plug) => {
+  plug.history = {
+    stack: [],
+    index: -1,
+    execute: (action) => {
+      plug.history.stack.splice(plug.history.index + 1);
+      plug.history.stack.push(action);
+      plug.history.index++;
+      action();
+    },
+    undo: () => {
+      if (plug.history.index >= 0) {
+        plug.history.index--;
+        console.log('Undo action');
+      }
+    },
+    redo: () => {
+      if (plug.history.index < plug.history.stack.length - 1) {
+        plug.history.index++;
+        plug.history.stack[plug.history.index]();
+        console.log('Redo action');
+      }
+    },
+  };
+});
+
+// Gunakan
+plugsy.history.execute(() => console.log('Action 1 executed'));
+plugsy.history.undo(); // Output: "Undo action"
+plugsy.history.redo(); // Output: "Action 1 executed"
 ```

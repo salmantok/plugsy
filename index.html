@@ -10,6 +10,8 @@ GitHub: https://github.com/salmantok
 plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
   plug.<span class="hljs-property">run</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Plugin executed!&#x27;</span>);
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">run</span>(); <span class="hljs-comment">// Output: Plugin executed!</span>
 </code></pre><h3>Plugin untuk Urutan Eksekusi</h3><p>Menjalankan plugin secara berurutan sesuai urutan yang ditentukan.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
   plug.<span class="hljs-property">plugins</span> = [
@@ -18,6 +20,8 @@ plugsy.<span class="hljs-title function_">run</span>(); <span class="hljs-commen
   ];
   plug.<span class="hljs-property">runAll</span> = <span class="hljs-function">() =&gt;</span> plug.<span class="hljs-property">plugins</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">plugin</span>) =&gt;</span> plugin.<span class="hljs-title function_">run</span>());
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">runAll</span>();
 <span class="hljs-comment">// Output:</span>
 <span class="hljs-comment">// Logger plugin</span>
@@ -35,6 +39,8 @@ plugsy.<span class="hljs-title function_">runAll</span>();
     <span class="hljs-title function_">next</span>();
   };
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">useMiddleware</span>(<span class="hljs-function">(<span class="hljs-params">ctx, next</span>) =&gt;</span> {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Step 1&#x27;</span>, ctx);
   <span class="hljs-title function_">next</span>();
@@ -54,6 +60,8 @@ plugsy.<span class="hljs-title function_">execute</span>(<span class="hljs-strin
   };
   plug.<span class="hljs-property">getService</span> = <span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> plug.<span class="hljs-property">services</span>[name];
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">registerService</span>(<span class="hljs-string">&#x27;api&#x27;</span>, { <span class="hljs-attr">fetch</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;Data fetched from API&#x27;</span> });
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getService</span>(<span class="hljs-string">&#x27;api&#x27;</span>).<span class="hljs-title function_">fetch</span>()); <span class="hljs-comment">// Output: Data fetched from API</span>
 </code></pre><h3>Plugin untuk Menangani Event</h3><p>Memungkinkan plugin menangani dan merespons event.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
@@ -66,6 +74,8 @@ plugsy.<span class="hljs-title function_">registerService</span>(<span class="hl
     (plug.<span class="hljs-property">events</span>[event] || []).<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">handler</span>) =&gt;</span> <span class="hljs-title function_">handler</span>(data));
   };
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;userLogin&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">${user}</span> logged in`</span>));
 plugsy.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;userLogin&#x27;</span>, <span class="hljs-string">&#x27;Alice&#x27;</span>);
 <span class="hljs-comment">// Output: Alice logged in</span>
@@ -76,6 +86,8 @@ plugsy.<span class="hljs-title function_">emit</span>(<span class="hljs-string">
   };
   plug.<span class="hljs-property">getConfig</span> = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> plug.<span class="hljs-property">config</span>[key];
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">setConfig</span>(<span class="hljs-string">&#x27;apiEndpoint&#x27;</span>, <span class="hljs-string">&#x27;https://api.example.com&#x27;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getConfig</span>(<span class="hljs-string">&#x27;apiEndpoint&#x27;</span>)); <span class="hljs-comment">// Output: https://api.example.com</span>
 </code></pre><h3>Plugin untuk Menyimpan State Global</h3><p>Menyimpan dan mengakses data global dalam plugin.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
@@ -83,17 +95,23 @@ plugsy.<span class="hljs-title function_">setConfig</span>(<span class="hljs-str
   plug.<span class="hljs-property">setState</span> = <span class="hljs-function">(<span class="hljs-params">key, value</span>) =&gt;</span> (plug.<span class="hljs-property">state</span>[key] = value);
   plug.<span class="hljs-property">getState</span> = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> plug.<span class="hljs-property">state</span>[key];
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">setState</span>(<span class="hljs-string">&#x27;theme&#x27;</span>, <span class="hljs-string">&#x27;dark&#x27;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getState</span>(<span class="hljs-string">&#x27;theme&#x27;</span>)); <span class="hljs-comment">// Output: dark</span>
 </code></pre><h3>Plugin untuk Logging</h3><p>Menyediakan sistem logging sederhana untuk debugging.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
   plug.<span class="hljs-property">log</span> = <span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[LOG]: <span class="hljs-subst">${message}</span>`</span>);
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Hello, world!&#x27;</span>); <span class="hljs-comment">// Output: [LOG]: Hello, world!</span>
 </code></pre><h3>Plugin untuk Caching Data</h3><p>Menyimpan dan mengambil data dari cache untuk efisiensi.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
   plug.<span class="hljs-property">cache</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>();
   plug.<span class="hljs-property">setCache</span> = <span class="hljs-function">(<span class="hljs-params">key, value</span>) =&gt;</span> plug.<span class="hljs-property">cache</span>.<span class="hljs-title function_">set</span>(key, value);
   plug.<span class="hljs-property">getCache</span> = <span class="hljs-function">(<span class="hljs-params">key</span>) =&gt;</span> plug.<span class="hljs-property">cache</span>.<span class="hljs-title function_">get</span>(key);
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">setCache</span>(<span class="hljs-string">&#x27;user&#x27;</span>, { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Alice&#x27;</span> });
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">getCache</span>(<span class="hljs-string">&#x27;user&#x27;</span>)); <span class="hljs-comment">// Output: { name: &#x27;Alice&#x27; }</span>
 </code></pre><h3>Plugin untuk Manajemen Tugas Asinkron</h3><p>Menjalankan tugas asinkron dalam antrean secara berurutan.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
@@ -105,6 +123,8 @@ plugsy.<span class="hljs-title function_">setCache</span>(<span class="hljs-stri
     }
   };
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">addTask</span>(
   <span class="hljs-function">() =&gt;</span>
     <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
@@ -129,6 +149,8 @@ plugsy.<span class="hljs-title function_">runTasks</span>();
   plug.<span class="hljs-property">addValidator</span> = <span class="hljs-function">(<span class="hljs-params">name, fn</span>) =&gt;</span> (plug.<span class="hljs-property">validators</span>[name] = fn);
   plug.<span class="hljs-property">validate</span> = <span class="hljs-function">(<span class="hljs-params">name, value</span>) =&gt;</span> plug.<span class="hljs-property">validators</span>[name]?.(value);
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">addValidator</span>(<span class="hljs-string">&#x27;isNumber&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">val</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> val === <span class="hljs-string">&#x27;number&#x27;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;isNumber&#x27;</span>, <span class="hljs-number">42</span>)); <span class="hljs-comment">// Output: true</span>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(plugsy.<span class="hljs-title function_">validate</span>(<span class="hljs-string">&#x27;isNumber&#x27;</span>, <span class="hljs-string">&#x27;test&#x27;</span>)); <span class="hljs-comment">// Output: false</span>
@@ -140,6 +162,8 @@ plugsy.<span class="hljs-title function_">addValidator</span>(<span class="hljs-
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Execution time: <span class="hljs-subst">${end - start}</span>ms`</span>);
   };
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">trackExecution</span>(<span class="hljs-function">() =&gt;</span> {
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000000</span>; i++) {} <span class="hljs-comment">// Simulasi kerja</span>
 });
@@ -152,7 +176,167 @@ plugsy.<span class="hljs-title function_">trackExecution</span>(<span class="hlj
     plug.<span class="hljs-property">hooks</span>.<span class="hljs-property">afterRun</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">fn</span>) =&gt;</span> <span class="hljs-title function_">fn</span>());
   };
 });
+
+<span class="hljs-comment">// Gunakan</span>
 plugsy.<span class="hljs-title function_">addHook</span>(<span class="hljs-string">&#x27;beforeRun&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Before run logic&#x27;</span>));
 plugsy.<span class="hljs-title function_">addHook</span>(<span class="hljs-string">&#x27;afterRun&#x27;</span>, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;After run logic&#x27;</span>));
 plugsy.<span class="hljs-title function_">runWithHooks</span>();
+</code></pre><h3>Plugin untuk Manajemen Tema UI</h3><p>Menyediakan fitur untuk mengatur tema (misalnya, mode terang &amp; gelap).</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+  plug.<span class="hljs-property">theme</span> = {
+    <span class="hljs-attr">current</span>: <span class="hljs-string">&#x27;light&#x27;</span>,
+    <span class="hljs-attr">setTheme</span>: <span class="hljs-function">(<span class="hljs-params">theme</span>) =&gt;</span> {
+      plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> = theme;
+      <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;data-theme&#x27;</span>, theme);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Theme set to: <span class="hljs-subst">${theme}</span>`</span>);
+    },
+    <span class="hljs-attr">toggleTheme</span>: <span class="hljs-function">() =&gt;</span> {
+      plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> = plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> === <span class="hljs-string">&#x27;light&#x27;</span> ? <span class="hljs-string">&#x27;dark&#x27;</span> : <span class="hljs-string">&#x27;light&#x27;</span>;
+      plug.<span class="hljs-property">theme</span>.<span class="hljs-title function_">setTheme</span>(plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span>);
+    },
+  };
+});
+
+<span class="hljs-comment">// Gunakan</span>
+plugsy.<span class="hljs-property">theme</span>.<span class="hljs-title function_">setTheme</span>(<span class="hljs-string">&#x27;light&#x27;</span>); <span class="hljs-comment">// Output: &quot;Theme set to: light&quot;</span>
+plugsy.<span class="hljs-property">theme</span>.<span class="hljs-title function_">toggleTheme</span>(); <span class="hljs-comment">// Output: &quot;Theme set to: dark&quot;</span>
+</code></pre><p>Full contoh tema UI</p><pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;ie=edge&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Theme Toggle<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+      <span class="hljs-comment">/* Default light theme */</span>
+      <span class="hljs-selector-pseudo">:root</span> {
+        <span class="hljs-attr">--background-color</span>: white;
+        <span class="hljs-attr">--text-color</span>: black;
+      }
+
+      <span class="hljs-comment">/* Dark theme */</span>
+      <span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&#x27;dark&#x27;</span>]</span> {
+        <span class="hljs-attr">--background-color</span>: black;
+        <span class="hljs-attr">--text-color</span>: white;
+      }
+
+      <span class="hljs-comment">/* Terapkan warna ke body */</span>
+      <span class="hljs-selector-tag">body</span> {
+        <span class="hljs-attribute">background-color</span>: <span class="hljs-built_in">var</span>(--background-color);
+        <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--text-color);
+        <span class="hljs-attribute">transition</span>:
+          background-color <span class="hljs-number">0.3s</span>,
+          color <span class="hljs-number">0.3s</span>;
+      }
+
+      <span class="hljs-comment">/* Style tombol */</span>
+      <span class="hljs-selector-id">#theme-toggle</span> {
+        <span class="hljs-attribute">margin</span>: <span class="hljs-number">20px</span>;
+        <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span> <span class="hljs-number">20px</span>;
+        <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;
+        <span class="hljs-attribute">cursor</span>: pointer;
+        <span class="hljs-attribute">border</span>: none;
+        <span class="hljs-attribute">background</span>: gray;
+        <span class="hljs-attribute">color</span>: white;
+        <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
+      }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;theme-toggle&quot;</span>&gt;</span>Toggle Dark Mode<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="language-javascript">
+      <span class="hljs-keyword">import</span> plugsy <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/npm/plugsy@0.0.2/+esm&#x27;</span>;
+
+      plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+        plug.<span class="hljs-property">theme</span> = {
+          <span class="hljs-attr">current</span>: <span class="hljs-string">&#x27;light&#x27;</span>,
+          <span class="hljs-attr">setTheme</span>: <span class="hljs-function">(<span class="hljs-params">theme</span>) =&gt;</span> {
+            plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> = theme;
+            <span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&#x27;data-theme&#x27;</span>, theme);
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Theme set to: <span class="hljs-subst">${theme}</span>`</span>);
+          },
+          <span class="hljs-attr">toggleTheme</span>: <span class="hljs-function">() =&gt;</span> {
+            plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> =
+              plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span> === <span class="hljs-string">&#x27;light&#x27;</span> ? <span class="hljs-string">&#x27;dark&#x27;</span> : <span class="hljs-string">&#x27;light&#x27;</span>;
+            plug.<span class="hljs-property">theme</span>.<span class="hljs-title function_">setTheme</span>(plug.<span class="hljs-property">theme</span>.<span class="hljs-property">current</span>);
+          },
+        };
+
+        <span class="hljs-comment">// Pastikan tema awal diatur ke &#x27;light&#x27;</span>
+        plug.<span class="hljs-property">theme</span>.<span class="hljs-title function_">setTheme</span>(<span class="hljs-string">&#x27;light&#x27;</span>);
+
+        <span class="hljs-comment">// Tambahkan event listener untuk tombol</span>
+        <span class="hljs-variable language_">document</span>
+          .<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;theme-toggle&#x27;</span>)
+          .<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+            plug.<span class="hljs-property">theme</span>.<span class="hljs-title function_">toggleTheme</span>();
+          });
+      });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre><h3>Plugin untuk Menyediakan API Fetch Wrapper</h3><p>Membuat wrapper untuk <code>fetch()</code> dengan penanganan kesalahan dan opsi global.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+  plug.<span class="hljs-property">api</span> = {
+    <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">setBaseUrl</span>: <span class="hljs-function">(<span class="hljs-params">url</span>) =&gt;</span> {
+      plug.<span class="hljs-property">api</span>.<span class="hljs-property">baseUrl</span> = url;
+    },
+    <span class="hljs-attr">get</span>: <span class="hljs-title function_">async</span> (endpoint) =&gt; {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(plug.<span class="hljs-property">api</span>.<span class="hljs-property">baseUrl</span> + endpoint);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;API Fetch Error:&#x27;</span>, error);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+      }
+    },
+    <span class="hljs-attr">post</span>: <span class="hljs-title function_">async</span> (endpoint, data) =&gt; {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(plug.<span class="hljs-property">api</span>.<span class="hljs-property">baseUrl</span> + endpoint, {
+          <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+          <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span> },
+          <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(data),
+        });
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">json</span>();
+      } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;API Fetch Error:&#x27;</span>, error);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+      }
+    },
+  };
+});
+
+<span class="hljs-comment">// Gunakan</span>
+plugsy.<span class="hljs-property">api</span>.<span class="hljs-title function_">setBaseUrl</span>(<span class="hljs-string">&#x27;https://api.example.com&#x27;</span>);
+plugsy.<span class="hljs-property">api</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/users&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>);
+</code></pre><h3>Plugin untuk Menyediakan Fitur Undo/Redo</h3><p>Menyediakan mekanisme untuk membatalkan dan mengulang perubahan.</p><pre><code class="hljs language-js">plugsy.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">plug</span>) =&gt;</span> {
+  plug.<span class="hljs-property">history</span> = {
+    <span class="hljs-attr">stack</span>: [],
+    <span class="hljs-attr">index</span>: -<span class="hljs-number">1</span>,
+    <span class="hljs-attr">execute</span>: <span class="hljs-function">(<span class="hljs-params">action</span>) =&gt;</span> {
+      plug.<span class="hljs-property">history</span>.<span class="hljs-property">stack</span>.<span class="hljs-title function_">splice</span>(plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span> + <span class="hljs-number">1</span>);
+      plug.<span class="hljs-property">history</span>.<span class="hljs-property">stack</span>.<span class="hljs-title function_">push</span>(action);
+      plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span>++;
+      <span class="hljs-title function_">action</span>();
+    },
+    <span class="hljs-attr">undo</span>: <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-keyword">if</span> (plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span> &gt;= <span class="hljs-number">0</span>) {
+        plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span>--;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Undo action&#x27;</span>);
+      }
+    },
+    <span class="hljs-attr">redo</span>: <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-keyword">if</span> (plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span> &lt; plug.<span class="hljs-property">history</span>.<span class="hljs-property">stack</span>.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>) {
+        plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span>++;
+        plug.<span class="hljs-property">history</span>.<span class="hljs-property">stack</span>[plug.<span class="hljs-property">history</span>.<span class="hljs-property">index</span>]();
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Redo action&#x27;</span>);
+      }
+    },
+  };
+});
+
+<span class="hljs-comment">// Gunakan</span>
+plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">execute</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Action 1 executed&#x27;</span>));
+plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">undo</span>(); <span class="hljs-comment">// Output: &quot;Undo action&quot;</span>
+plugsy.<span class="hljs-property">history</span>.<span class="hljs-title function_">redo</span>(); <span class="hljs-comment">// Output: &quot;Action 1 executed&quot;</span>
 </code></pre></main><footer class="mt-2 py-2 text-center small text-secondary border-top footer a"><p>Copyright &copy; 2025 <a href="https://github.com/salmantok">Salman</a>. All rights reserved.</p></footer><script>document.addEventListener("DOMContentLoaded",(function(){document.querySelectorAll("pre").forEach((e=>{const t=e.querySelector("code"),n=t.className.split("language-")[1]||"plain",o=document.createElement("div");o.className="d-flex justify-content-between align-items-center p-2 rounded mb-0 bg-body-tertiary",o.style.fontSize="12px",o.style.padding="4px 8px",e.parentElement.insertBefore(o,e);const a=document.createElement("span");a.textContent=n.toUpperCase(),a.className="text-nowrap",o.appendChild(a);const i=document.createElement("button");i.innerText="Copy",i.className="btn btn-sm",i.style.fontSize="10px",i.style.padding="2px 6px",i.onclick=()=>{navigator.clipboard.writeText(t.innerText).then((()=>{i.innerText="Copied!",setTimeout((()=>i.innerText="Copy"),2e3)}))},o.appendChild(i);const l=document.createElement("div");l.className="position-relative mb-4",e.parentElement.insertBefore(l,o.nextSibling),l.appendChild(e)}))}))</script><script>document.addEventListener("DOMContentLoaded",(()=>{const t=document.querySelector(".dark-mode-toggle"),e=document.body,d=localStorage.getItem("theme")||"light";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",t.addEventListener("click",(()=>{const d="dark"===e.getAttribute("data-bs-theme")?"light":"dark";e.setAttribute("data-bs-theme",d),t.textContent="dark"===d?"Light Mode":"Dark Mode",localStorage.setItem("theme",d)}))}))</script><script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script></body></html>
